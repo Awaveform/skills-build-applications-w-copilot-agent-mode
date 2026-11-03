@@ -30,13 +30,13 @@ OctoFit Tracker is a three-tier application for a school fitness program. The st
 
 Record your plan here before editing code.
 
-- Presentation tier decision:
-- Logic tier decision:
-- Data tier decision:
-- Activity tracking approach:
-- Team management approach:
-- Leaderboard approach:
-- Workout suggestions approach:
+- Presentation tier decision: Use the shared API client in each page and expose loading, empty, success, and accessible error states.
+- Logic tier decision: Keep request validation and domain behavior in the service layer; return deliberate 4xx responses for invalid or unknown references.
+- Data tier decision: Enforce required fields and sensible value constraints in Mongoose schemas while preserving idempotent demo seeding.
+- Activity tracking approach: Validate existing user/team references, use submitted type and minutes, and calculate points from minutes at creation time.
+- Team management approach: Require a name and mascot, preserve supplied members, and default members to an empty array.
+- Leaderboard approach: Sum activity points per team, sort descending with a stable name tie-break, and assign 1-based ranks.
+- Workout suggestions approach: Match a known user's goal first, then recent activity, prioritizing matching workouts and explaining the recommendation.
 
 ## Test plan
 
@@ -47,3 +47,11 @@ Record the commands you run and what each failure means.
 - Frontend command: `npm test --prefix octofit-tracker/frontend`
 - Backend build command: `npm run build --prefix octofit-tracker/backend`
 - Frontend build command: `npm run build --prefix octofit-tracker/frontend`
+
+Verification results:
+
+- Data tier: passed (5 tests); failures indicate missing schema constraints or seed behavior regressions.
+- API: passed (4 tests); failures indicate request validation or endpoint contract regressions.
+- Frontend: passed (15 tests); failures indicate rendering, request, or accessible state regressions.
+- Backend build: passed; failures indicate TypeScript errors.
+- Frontend build: passed; failures indicate TypeScript or production bundle errors.
